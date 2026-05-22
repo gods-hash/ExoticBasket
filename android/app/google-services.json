@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "2309052271",
+    "project_id": "exoticbasket-b619a",
+    "storage_bucket": "exoticbasket-b619a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2309052271:android:e1624175986d0b5a14fa9a",
+        "android_client_info": {
+          "package_name": "com.theexoticbasket"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZxUytoEK6IPfTNuGY_5fP4Rzli4H0X40"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
