@@ -15,12 +15,11 @@ workflows:
         script: |
           cd ios
           pod install
-      - name: Build iOS app (Without Code Signing for now)
+      - name: Build iOS app
         script: |
           xcode-project build-ipa \
             --workspace "ios/ExoticBasket.xcworkspace" \
-            --scheme "ExoticBasket" \
-            --disable-codesign
+            --scheme "ExoticBasket"
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
