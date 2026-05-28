@@ -54,21 +54,7 @@ const OtpVerification = ({ route }) => {
     setOtp(clean);
   };
 
-  // 🔙 BACK HANDLER
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      if (e.data.action.type === 'GO_BACK') {
-        e.preventDefault();
 
-        Alert.alert('Exit App?', 'Do you want to exit?', [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'OK', onPress: () => BackHandler.exitApp() },
-        ]);
-      }
-    });
-
-    return unsubscribe;
-  }, [navigation]);
 
   // 🔥 AUTO FOCUS (ONLY ON LOAD)
   useEffect(() => {

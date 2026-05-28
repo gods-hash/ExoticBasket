@@ -1,6 +1,6 @@
 // New Code of LogIn
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, Image, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, View, StyleSheet, ScrollView, Image, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
 import TextInputCompo from '../Components/TextInputCompo';
 import Buttons from '../Components/Buttons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import { scale } from '../styles/responsiveSize';
 import imgPath from '../constants/imgPath';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showToast } from '../styles/utils/toast';
+import Headers from '../Components/Headers';
 
 const GetOtp = () => {
   const [errors, setErrors] = useState({});
@@ -23,6 +24,16 @@ const GetOtp = () => {
   const dispatch = useDispatch();
   const colors = useTheme().colors;
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      const actionType = e.data.action.type;
+      if (actionType === 'POP' || actionType === 'GO_BACK') {
+        AsyncStorage.removeItem('STORE');
+      }
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   //   const handleSubmit = async () => {
   //     // Your form validation logic here
@@ -255,56 +266,78 @@ const GetOtp = () => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.scrollViewContainer}
-      keyboardDismissMode="interactive"
-      keyboardShouldPersistTaps="always"
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={[styles.formContainer, {}]}>
-        <Image
-          style={{
-            height: 150,
-            width: 150,
-            alignSelf: 'center',
-            marginBottom: 20,
-          }}
-          source={imgPath.applogo}
-          resizeMode="center"
-        />
-        <Text
-          style={[
-            commonStyles.fontBold24,
-            {
-              color: colors.text,
-              fontWeight: 'bold',
-              marginBottom: scale(10),
+    <>
+      <Headers title="Login" showBack />
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContainer}
+        keyboardDismissMode="interactive"
+        keyboardShouldPersistTaps="always"
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={[styles.formContainer, {}]}>
+          <Image
+            style={{
+              height: 150,
+              width: 150,
               alignSelf: 'center',
-            },
-          ]}
-        >
-          Login with Mobile Number
-        </Text>
-        <TextInputCompo
-          onChangeText={text => handleOnchange(text, 'user_name')}
-          onFocus={() => handleError(null, 'user_name')}
-          iconName="phone"
-          placeholder="Enter Phone Number"
-          error={errors.user_name}
-          maxLength={10}
-          keyboardType={'number-pad'}
-          autoFocus={true}
-        />
-        <Buttons
-          onPress={handleSubmit}
-          titel={loading ? '' : 'Get Started'}
-          disabled={loading}
-          style={{}}
-        >
-          {loading && <ActivityIndicator size="small" color="#fff" />}
-        </Buttons>
-      </View>
-    </ScrollView>
+              marginBottom: 20,
+            }}
+            source={imgPath.applogo}
+            resizeMode="center"
+          />
+          <Text
+            style={[
+              commonStyles.fontBold24,
+              {
+                color: colors.text,
+                fontWeight: 'bold',
+                marginBottom: scale(10),
+                alignSelf: 'center',
+              },
+            ]}
+          >
+            Login with Mobile Number
+          </Text>
+          <TextInputCompo
+            onChangeText={text => handleOnchange(text, 'user_name')}
+            onFocus={() => handleError(null, 'user_name')}
+            iconName="phone"
+            placeholder="Enter Phone Number"
+            error={errors.user_name}
+            maxLength={10}
+            keyboardType={'number-pad'}
+            autoFocus={true}
+          />
+          <Buttons
+            onPress={handleSubmit}
+            titel={loading ? '' : 'Get Started'}
+            disabled={loading}
+            style={{}}
+          >
+            {loading && <ActivityIndicator size="small" color="#fff" />}
+          </Buttons>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{
+              alignSelf: 'center',
+              marginTop: 10,
+              padding: 10,
+            }}
+          >
+            <Text
+              style={{
+                color: '#007BFF',
+                fontWeight: 'bold',
+                fontSize: 16,
+                textDecorationLine: 'underline',
+              }}
+            >
+              Change Store
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </>
   );
 };
 

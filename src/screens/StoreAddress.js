@@ -1,5 +1,5 @@
-import React, { useState, useEffect, } from 'react';
-import { View, Text, Alert, TouchableOpacity, StyleSheet, ScrollView, BackHandler, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Alert, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -13,6 +13,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useDispatch, useSelector } from 'react-redux';
 import { getStoreIds } from '../redux/actions/AuthAction';
 import * as ActionTypes from '../redux/actionTypes';
+import Headers from '../Components/Headers';
 
 
 
@@ -113,41 +114,13 @@ const StoreAddress = ({ navigation, route }) => {
     };
 
 
-    useEffect(() => {
-        // Add the beforeRemove event listener
-        const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-            // Check the action type
-            if (e.data.action.type === 'GO_BACK') {
-                e.preventDefault();
 
-                // Show a confirmation dialog
-                Alert.alert(
-                    'Are you sure?',
-                    'Do you want to exit the app?',
-                    [
-                        {
-                            text: 'Cancel',
-                            style: 'cancel',
-                            onPress: () => { },
-                        },
-                        {
-                            text: 'OK',
-                            style: 'destructive',
-                            // Exit the app
-                            onPress: () => BackHandler.exitApp(),
-                        },
-                    ]
-                );
-            }
-        });
-
-        // Return the unsubscribe function to clean up
-        return unsubscribe;
-    }, [navigation]);
 
 
 
     return (
+        <>
+        <Headers title="Store Address" showBack />
         <ScrollView contentContainerStyle={[styles.container, {}]}
             keyboardDismissMode="interactive"
             keyboardShouldPersistTaps="always"
@@ -280,6 +253,7 @@ const StoreAddress = ({ navigation, route }) => {
                 }}
             /> */}
         </ScrollView>
+        </>
     );
 };
 

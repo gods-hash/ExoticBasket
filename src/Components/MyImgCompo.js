@@ -1,18 +1,27 @@
 import React, {useState} from 'react';
 import {View, ActivityIndicator, Image} from 'react-native';
+import imgPath from '../constants/imgPath';
 
 const MyImgCompo = ({imageUri, ImgCompoStyle, resizeMode = 'contain', otherComponents}) => {
   const [imgLoading, setImgLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   return (
     <View>
       
       <Image
         style={[ImgCompoStyle, {overflow: 'hidden'}]}
-        source={{uri: imageUri}}
+        source={hasError ? imgPath.noImg : {uri: imageUri}}
         resizeMode={resizeMode}
-        onLoadStart={() => setImgLoading(true)}
+        onLoadStart={() => {
+          setImgLoading(true);
+          setHasError(false);
+        }}
         onLoadEnd={() => setImgLoading(false)}
+        onError={() => {
+          setHasError(true);
+          setImgLoading(false);
+        }}
       />
 
       {imgLoading && (

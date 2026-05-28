@@ -23,6 +23,10 @@ target 'ExoticBasket' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  script_phase :name => 'Copy Vector Icon Fonts',
+               :script => 'cp -f "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts"/*.ttf "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/"',
+               :execution_position => :after_compile
+
   post_install do |installer|
     react_native_post_install(
       installer,
