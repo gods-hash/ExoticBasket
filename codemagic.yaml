@@ -17,9 +17,16 @@ workflows:
           pod install
       - name: Build iOS app
         script: |
-          xcode-project build-ipa \
-            --workspace "ios/ExoticBasket.xcworkspace" \
-            --scheme "ExoticBasket"
+          xcodebuild \
+            -workspace ios/ExoticBasket.xcworkspace \
+            -scheme ExoticBasket \
+            -sdk iphonesimulator \
+            -configuration Release \
+            -derivedDataPath ios/build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
     artifacts:
-      - build/ios/ipa/*.ipa
+      - ios/build/Build/Products/**/*.app
       - /tmp/xcodebuild_logs/*.log
